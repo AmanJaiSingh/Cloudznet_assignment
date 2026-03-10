@@ -1,16 +1,26 @@
 import { useIncidentStore } from "@/store/useIncidentStore";
+import { useAuthStore } from "@/store/useAuthStore";
 import { motion } from "framer-motion";
-import { Activity, AlertCircle, CheckCircle2, AlertTriangle } from "lucide-react";
+import { Activity, AlertCircle, CheckCircle2, AlertTriangle, User } from "lucide-react";
 
 export function DashboardSummary() {
     const { incidents } = useIncidentStore();
+    const { user } = useAuthStore();
 
     const total = incidents.length;
     const open = incidents.filter((i) => i.status === "open").length;
     const investigating = incidents.filter((i) => i.status === "investigating").length;
     const resolved = incidents.filter((i) => i.status === "resolved").length;
+    const assignedToMe = incidents.filter((i) => i.assigned_to === user?._id && i.status !== "resolved").length;
 
     const stats = [
+        {
+            title: "Assigned to Me",
+            value: assignedToMe,
+            icon: <User className="h-5 w-5 text-purple-500" />,
+            bg: "bg-purple-50 dark:bg-purple-500/10",
+            border: "border-purple-100 dark:border-purple-500/20",
+        },
         {
             title: "Total Incidents",
             value: total,
@@ -42,7 +52,7 @@ export function DashboardSummary() {
     ];
 
     return (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {stats.map((stat, i) => (
                 <motion.div
                     key={stat.title}
