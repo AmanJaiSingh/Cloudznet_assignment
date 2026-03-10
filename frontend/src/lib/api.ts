@@ -10,7 +10,7 @@ export const getToken = () => {
 
 // Create an Axios instance
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://192.168.29.78:5000",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 // Request interceptor to add the auth token to headers
