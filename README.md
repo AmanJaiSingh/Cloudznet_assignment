@@ -1,4 +1,4 @@
-# Cloudznet Incident Management System
+# CloudZent Incident Management System
 
 A full-stack Incident Management System designed for engineering teams to track, assign, and resolve system incidents securely. Built with Next.js (Frontend) and Node.js/Express (Backend).
 
