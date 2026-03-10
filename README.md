@@ -114,9 +114,9 @@ You can create a new account easily on the Signup page, but here are example use
 **User 1 (Admin/Engineer):**
 - **Email:** demo@example.com
 - **Password:** password123
-- **Team Name:** Engineering
+- **Team Name:** Backend Engineering
 
 **User 2 (Teammate - Will see the same incidents):**
 - **Email:** user2@example.com
 - **Password:** password123
-- **Team Name:** Engineering
+- **Team Name:** Backend Engineering
