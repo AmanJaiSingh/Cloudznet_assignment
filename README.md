@@ -8,9 +8,20 @@ A full-stack Incident Management System designed for engineering teams to track,
    - **Frontend:** [Insert Frontend Vercel URL here]
    - **Backend API:** [Insert Backend Vercel URL here]
 2. **GitHub Repository:** [https://github.com/AmanJaiSingh/Cloudznet_assignment.git](https://github.com/AmanJaiSingh/Cloudznet_assignment.git)
-3. **Database Schema Screenshot:** 
-   *(Please replace the image below with your actual MongoDB screenshot)*
-   ![Database Schema Screenshot](./schema-screenshot.png)
+3. **Database Schema Screenshots:** 
+   Here are the schema structures from MongoDB Atlas for our 4 collections:
+   
+   **Teams Collection:**
+   ![Teams Schema](./assets/teams-schema.png)
+   
+   **Activity Logs Collection:**
+   ![Activity Logs Schema](./assets/activitylogs-schema.png)
+
+   **Incidents Collection:**
+   ![Incidents Schema](./assets/incidents-schema.png)
+
+   **Users Collection:**
+   ![Users Schema](./assets/users-schema.png)
 
    *(For reference, the data models are structured as below)*
    ```mermaid
