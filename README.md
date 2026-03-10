@@ -1,94 +1,122 @@
-# Incident Management System
+# Cloudznet Incident Management System
 
-A full-stack Incident Management System designed for engineering teams to track, assign, and resolve system incidents, built with Next.js (Frontend) and Node.js/Express (Backend).
+A full-stack Incident Management System designed for engineering teams to track, assign, and resolve system incidents securely. Built with Next.js (Frontend) and Node.js/Express (Backend).
 
-## Architecture Overview
+## 🚀 Submission Details
 
-- **Frontend:** Next.js 15 (App Router), React, Tailwind CSS 4, Framer Motion, Zustand (State Management).
-- **Backend:** Node.js, Express.js.
-- **Database:** MongoDB via Mongoose.
-- **Authentication:** Custom JWT-based authentication.
+1. **Live Deployed URL:**
+   - **Frontend:** [Insert Frontend Vercel URL here]
+   - **Backend API:** [Insert Backend Vercel URL here]
+2. **GitHub Repository:** [https://github.com/AmanJaiSingh/Cloudznet_assignment.git](https://github.com/AmanJaiSingh/Cloudznet_assignment.git)
+3. **Database Schema Screenshot:** 
+   *(Please replace the image below with your actual MongoDB screenshot)*
+   ![Database Schema Screenshot](./schema-screenshot.png)
 
-The architecture ensures team isolation, meaning users only see incidents associated with their team. When a user signs up with a specific `teamName`, the backend dynamically creates the team or assigns the user to the existing team. This seamless flow allows for easy user onboarding.
+   *(For reference, the data models are structured as below)*
+   ```mermaid
+   erDiagram
+       USER {
+           ObjectId _id
+           String name
+           String email
+           String password
+           ObjectId team_id
+       }
+       TEAM {
+           ObjectId _id
+           String name
+           Date created_at
+       }
+       INCIDENT {
+           ObjectId _id
+           String title
+           String description
+           String severity "low, medium, high"
+           String status "open, investigating, resolved"
+           ObjectId created_by
+           ObjectId assigned_to
+           ObjectId team_id
+           Date created_at
+       }
+       ACTIVITYLOG {
+           ObjectId _id
+           ObjectId incident_id
+           ObjectId user_id
+           String action "incident_created, incident_assigned, status_changed, incident_resolved"
+           Date created_at
+       }
 
-## Tech Stack
+       USER }|--|| TEAM : "Belongs to"
+       INCIDENT }|--|| TEAM : "Belongs to"
+       INCIDENT }|--|| USER : "Created by"
+       INCIDENT }|--o| USER : "Assigned to"
+       ACTIVITYLOG }|--|| INCIDENT : "Logs"
+       ACTIVITYLOG }|--|| USER : "Performed by"
+   ```
+
+## 🛠️ Tech Stack
 
 **Frontend**
-- Next.js 15 (App Router)
+- Next.js 15 (App Router, Serverless)
 - React 19
-- Tailwind CSS 4 + `tailwindcss/postcss`
-- Framer Motion (for smooth micro-animations)
+- Tailwind CSS 4 + Framer Motion (Animations)
 - Zustand (Global State)
 - Axios (API Client)
-- Lucide React (Icons)
 
 **Backend**
-- Node.js & Express.js
+- Node.js & Express.js (Vercel Serverless Functions)
 - MongoDB & Mongoose
-- JSON Web Token (JWT)
+- JSON Web Token (JWT Auth)
 - bcryptjs (Password hashing)
 
-## Setup Steps
+## 🏗️ Architecture Overview
+
+The system uses a **Backend-First architecture** with strict **Team Isolation**. 
+- **Security:** Users are authenticated via JWT. Every API request requires a Bearer token.
+- **Multi-tenant Data Isolation:** When a user registers with a `teamName`, they are assigned a `team_id`. Every incident and database query automatically filters by the user's `team_id`, ensuring completely private dashboards for different teams.
+- **Serverless Deployment:** The backend `server.js` exports the Express app to run efficiently on Vercel's Serverless Edge network.
+- **Real-Time Emulation:** The frontend utilizes background data polling every 5 seconds to provide real-time updates without heavy WebSocket connections (ideal for Serverless limitations).
+
+## ✨ Setup Steps (Local Development)
 
 ### Prerequisites
 - Node.js (v18+)
-- MongoDB connection string (update `.env` in backend)
+- MongoDB Atlas Connection String
 
 ### 1. Backend Setup
-1. Open terminal and navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Set up environment variables. Create a `.env` file in the `backend` folder:
-   ```env
-   PORT=5000
-   MONGO_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
-   ```
-4. Start the backend development server:
-   ```bash
-   npm run dev
-   ```
+```bash
+cd backend
+npm install
+```
+Create a `.env` file in the `backend` folder:
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+```
+Start backend: `npm run dev`
 
 ### 2. Frontend Setup
-1. Open a new terminal and navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Configure environment variable (optional if backend is on `localhost:5000`). Create a `.env.local` file in the `frontend` folder:
-   ```env
-   NEXT_PUBLIC_API_URL=http://localhost:5000
-   ```
-4. Start the frontend development server:
-   ```bash
-   npm run dev
-   ```
-5. Open your browser and navigate to `http://localhost:3000`.
+```bash
+cd frontend
+npm install
+```
+Create a `.env.local` file in the `frontend` folder:
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
+Start frontend: `npm run dev`
 
-## Example Login Credentials
+## 🔑 Example Login Credentials
 
-You can create a new account easily on the Signup page. However, here is an example:
+You can create a new account easily on the Signup page, but here are example users if you seed the database:
 
-**User 1:**
+**User 1 (Admin/Engineer):**
 - **Email:** demo@example.com
 - **Password:** password123
 - **Team Name:** Engineering
 
-**User 2 (same team):**
+**User 2 (Teammate - Will see the same incidents):**
 - **Email:** user2@example.com
 - **Password:** password123
 - **Team Name:** Engineering
-
-## Deployment Readiness
-
-- The **Frontend** can be easily deployed to Vercel by importing the Next.js project. It has been tested and builds successfully with `npm run build`.
-- The **Backend** can be deployed to Render, Railway, or any Node.js hosting platform. Ensure the `.env` variables are securely set.
-- Add your live URLs, schema screenshots, and GitHub repos to this document before final submission.
