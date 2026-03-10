@@ -12,11 +12,15 @@ export default function DashboardLayout({
 }) {
   const router = useRouter();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const fetchUser = useAuthStore((state) => state.fetchUser);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    if (isAuthenticated) {
+      fetchUser();
+    }
+  }, [isAuthenticated, fetchUser]);
 
   useEffect(() => {
     if (mounted && !isAuthenticated) {
