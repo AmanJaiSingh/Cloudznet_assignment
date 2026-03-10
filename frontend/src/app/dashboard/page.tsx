@@ -18,8 +18,8 @@ export default function DashboardPage() {
   const [filterStatus, setFilterStatus] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const fetchIncidents = useCallback(async () => {
-    setLoading(true);
+  const fetchIncidents = useCallback(async (showLoading = true) => {
+    if (showLoading) setLoading(true);
     try {
       const url = filterStatus ? `/incidents?status=${filterStatus}` : "/incidents";
       const res = await api.get(url);
@@ -27,17 +27,17 @@ export default function DashboardPage() {
     } catch (err) {
       console.error(err);
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   }, [filterStatus, setIncidents]);
 
   useEffect(() => {
     fetchIncidents();
 
-    // Poll every 5 seconds for real-time updates
+    // Poll every 5 seconds for real-time updates silently
     // (SSE/WebSockets don't work on Vercel serverless)
     const interval = setInterval(() => {
-      fetchIncidents();
+      fetchIncidents(false);
     }, 5000);
 
     return () => {
